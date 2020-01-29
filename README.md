@@ -13,7 +13,7 @@ If you intend to use a WinForms Application you need to attach it to the message
 
 ### Simulate keyboard
 
-Use the `Send` class and their static methods. Sending is done using the Windows API method `SendInput`
+Use the `Send` class. Sending is done using the Windows API method `SendInput`
 
 ### Virtual Keycodes
 
