@@ -11,5 +11,11 @@ Use the `Hotkey` class to define a hotkey and register it using an instance of `
 
 If you intend to use a WinForms Application you need to attach it to the message loop ([WndProc](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.wndproc?view=netframework-4.8)) and call the `MessageHandler` method of your HotkeyManager instance (Make sure you also pass true as second argument to the constructor). If you use WPF skip this step.
 
+### Simulate keyboard
 
+Use the `Send` class and their static methods. Sending is done using the Windows API method `SendInput`
+
+### Virtual Keycodes
+
+All virtual Keycodes can be found in the static `VirtualKeyCodes` class
 
