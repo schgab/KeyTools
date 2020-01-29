@@ -19,3 +19,6 @@ Use the `Send` class. Sending is done using the Windows API method `SendInput`
 
 All virtual Keycodes can be found in the static `VirtualKeyCodes` class
 
+### Compiling
+
+Download this project and compile it using Visual Studio in .Net 4.5 or use the binary on the [Release](https://github.com/schgab/KeyTools/releases) page.
