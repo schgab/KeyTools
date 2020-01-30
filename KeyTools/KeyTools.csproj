@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Hotkeying\Hotkey.cs" />
     <Compile Include="Hotkeying\HotkeyManager.cs" />
+    <Compile Include="Hotkeying\HotkeyMessage.cs" />
     <Compile Include="Keysending\Send.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

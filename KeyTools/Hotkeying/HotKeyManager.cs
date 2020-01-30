@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Interop;
-
 namespace KeyTools.Hotkeying
 {
     public class HotkeyManager :IDisposable
@@ -28,7 +24,7 @@ namespace KeyTools.Hotkeying
         /// Instatiates a new HotkeyManager object. Hold a reference to this class otherwise hotkeys will be unregistered
         /// </summary>
         /// <param name="handle">Window handle the HotkeyManager gets attached to</param>
-        /// <param name="useOwnMessageLoop">Use this if you are using winforms. Call <see cref="MessageHandler(MSG)"/> in your message loop and pass the message</param>
+        /// <param name="useOwnMessageLoop">Use this if you are using winforms</param>
         public HotkeyManager(IntPtr handle, bool useOwnMessageLoop = false)
         {
             Hotkeys = new Dictionary<int, Hotkey>();
@@ -48,13 +44,15 @@ namespace KeyTools.Hotkeying
         /// <summary>
         /// Call this method if you don't use a WPF application
         /// </summary>
-        /// <param name="msg">The MSG object you receive in your <c>WndProc</c> method</param>
-        public void MessageHandler(MSG msg)
+        /// <param name="msg">A HotkeyMessage object you create in your <c>WndProc</c> method</param>
+        public void MessageHandler(HotkeyMessage msg)
         {
             if (UsingCustomMessageLoop)
             {
-                var handled = false;
-                PreprocessMessage(ref msg, ref handled);
+                if (msg.MessageID == WinApi.WM_HOTKEY)
+                {
+                    ProcessHotkey((int)msg.wParam);
+                }
             }
         }
 
@@ -66,10 +64,16 @@ namespace KeyTools.Hotkeying
                 return;
             }
             int id = (int)msg.wParam;
-            if (Hotkeys.ContainsKey(id))
+            ProcessHotkey(id);
+            handled = true;
+        }
+
+
+        private void ProcessHotkey(int hotkeyId)
+        {
+            if (Hotkeys.ContainsKey(hotkeyId))
             {
-                handled = true;
-                Hotkeys[id].Action();
+                Hotkeys[hotkeyId].Action();
             }
         }
 
@@ -103,8 +107,10 @@ namespace KeyTools.Hotkeying
         /// </summary>
         public void Dispose()
         {
-           
-            ComponentDispatcher.ThreadPreprocessMessage -= PreprocessMessage;
+            if (!UsingCustomMessageLoop)
+            {
+                ComponentDispatcher.ThreadPreprocessMessage -= PreprocessMessage;
+            }
             foreach (var hk in Hotkeys.Values)
             {
                 WinApi.UnregisterHotKey(WindowHandle, hk.HotkeyId);                
