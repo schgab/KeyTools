@@ -9,6 +9,9 @@ namespace KeyTools
 
         internal static int WM_HOTKEY = 786;
 
+        [DllImport("user32.dll")]
+        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
+
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool RegisterHotKey(IntPtr hWnd, int id,
                 Hotkeying.Hotkey.KeyModifiers fsModifiers, int vk);
