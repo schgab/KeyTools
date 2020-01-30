@@ -1,4 +1,5 @@
-# KeyTools
+# KeyTools [![Release](https://img.shields.io/badge/release-1.0-blue)](https://github.com/schgab/KeyTools/releases)
+
 A small and easy to use Hotkey library with support for sending using windows api functions.
 
 
